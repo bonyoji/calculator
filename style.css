@@ -12,7 +12,7 @@
 }
 
 .display-container {
-    background: white;
+    background: rgb(241, 240, 238);
     flex: 2;
     margin: 10px;
     border-radius: 10px;
@@ -33,14 +33,9 @@
     margin-bottom: 0;
 }
 
-.mid-display {
-    margin: 0 20px 0 0;
-}
-
 .bottom-display {
     flex: 2;
     font-size: 30px;
-    margin-top: 0;
 }
 
 .clear-container {
@@ -85,16 +80,11 @@
     flex: 1;
 }
 
-.num, .operator {
+.num, .operator{
     flex: 1;
     border-radius: 18px;
     margin: 1px;
     font-size: 28px;
-}
-
-.num, .delete-digit {
-    background-color: rgb(55, 55, 59);
-    color: white;
 }
 
 .operator {
@@ -102,6 +92,7 @@
     color: white;
 }
 
-.operator-add {
-    flex: 2;
+.num, .delete-digit, .equal-btn {
+    background-color: rgb(55, 55, 59);
+    color: white;
 }

@@ -16,47 +16,67 @@ function divide(a, b) {
     return a / b;
 }
 
-function operate(operator, a, b) {
+function operate(operator) {
     switch(operator) {
         case '+' :
-            add(a, b);
+            return add(+firstNumber, +secondNumber);
             break;
         case '-' :
-            subtract(a, b);
+            return subtract(+firstNumber, +secondNumber);
             break;
         case 'x' :
-            multiply(a, b);
+            return multiply(+firstNumber, +secondNumber);
             break;
         case '/' :
-            divide(a, b);
+            return divide(+firstNumber, +secondNumber);
     }
 }
 
-const numPad = document.querySelectorAll('.num');
-const operatorPad = document.querySelectorAll('.operator');
+const numPad = document.querySelectorAll('button');
 
 numPad.forEach(btnNum => {
-    btnNum.addEventListener('click', strToDisplay);
-})
-
-operatorPad.forEach(operatorBtn => {
-    operatorBtn.addEventListener('click', strToDisplay);
+    btnNum.addEventListener('click', clickHandler);
 })
 
 const topDisplay = document.querySelector('.top-display');
-const operatorDisplay = document.querySelector('.mid-display');
 const bottomDisplay = document.querySelector('.bottom-display');
 
-const displayNum = {};
-let displayVal = '0';
+let firstNumber = '';
+let secondNumber = '';
+let operatorHold = '';
+let result = '';
 
-function strToDisplay(e) {
-    let btnText = e.target.innerText;
-    if (displayVal == '0') {
-        displayVal = '';
+function clickHandler(e) {
+    let btnText = e.target.value;
+    if (btnText == 'clear') {
+        clear();
     }
-    displayVal += btnText;
-    bottomDisplay.innerText = displayVal;
+    else if (btnText == '/' || btnText == 'x' || btnText == '-' || btnText == '+') {
+        operatorHold = btnText;
+        bottomDisplay.innerHTML = '';
+        topDisplay.innerHTML = firstNumber + ' ' + operatorHold;
+    } else if (operatorHold == '') {
+        firstNumber += btnText;
+        bottomDisplay.innerHTML = firstNumber;
+    } else if (operatorHold == '/' || operatorHold == 'x' || operatorHold == '-' || operatorHold == '+') {
+        if (btnText == '=') {
+            result = operate(operatorHold);
+            clear();
+            bottomDisplay.innerHTML = result;
+        } else {
+            secondNumber += btnText;
+            bottomDisplay.innerHTML = secondNumber;
+        }
+    }
 }
+
+function clear() {
+    firstNumber = '';
+    secondNumber = '';
+    operatorHold = '';
+    topDisplay.innerHTML = '';
+    bottomDisplay.innerHTML = '0';
+}
+
 
 
