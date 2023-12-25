@@ -16,8 +16,8 @@ function divide(a, b) {
     return a / b;
 }
 
-function operate(operator) {
-    switch(operator) {
+function operate() {
+    switch(operatorHold) {
         case '+' :
             return add(+firstNumber, +secondNumber);
             break;
@@ -51,22 +51,29 @@ function clickHandler(e) {
     if (btnText == 'clear') {
         clear();
     }
-    else if (btnText == '/' || btnText == 'x' || btnText == '-' || btnText == '+') {
+    else if (isOperator(btnText) && operatorHold === '') {
         operatorHold = btnText;
         bottomDisplay.innerHTML = '';
         topDisplay.innerHTML = firstNumber + ' ' + operatorHold;
-    } else if (operatorHold == '') {
-        firstNumber += btnText;
-        bottomDisplay.innerHTML = firstNumber;
     } else if (operatorHold == '/' || operatorHold == 'x' || operatorHold == '-' || operatorHold == '+') {
         if (btnText == '=') {
-            result = operate(operatorHold);
+            result = operate();
             clear();
             bottomDisplay.innerHTML = result;
+        } else if (isOperator(btnText)) {
+            result = operate();
+            operatorHold = btnText;
+            firstNumber = result;
+            secondNumber = '';
+            topDisplay.innerHTML = firstNumber + ' ' + operatorHold;
+            bottomDisplay.innerHTML = '';
         } else {
             secondNumber += btnText;
             bottomDisplay.innerHTML = secondNumber;
         }
+    } else {
+        firstNumber += btnText;
+        bottomDisplay.innerHTML = firstNumber;
     }
 }
 
@@ -76,6 +83,10 @@ function clear() {
     operatorHold = '';
     topDisplay.innerHTML = '';
     bottomDisplay.innerHTML = '0';
+}
+
+function isOperator(btnText) {
+    return (btnText == '/' || btnText == 'x' || btnText == '-' || btnText == '+');
 }
 
 
