@@ -95,6 +95,11 @@ function assignOperator(input) {
     if (isEmpty()) {
         return null;
     }
+    if(isOperator(topDisplay.textContent.slice(-1)) && secondNumber == ''){
+        operatorHold = input;
+        topDisplay.textContent = firstNumber + " " + operatorHold;
+        return null;
+    }
     if(operatorHold != '') {
         firstNumber = operate();
     }
@@ -113,6 +118,10 @@ function isEmpty() {
 
 function isOperator(btnText) {
     return (btnText == '/' || btnText == '*' || btnText == '-' || btnText == '+');
+}
+
+function checkDecimal() {
+
 }
 
 function add(a, b) {
