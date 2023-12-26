@@ -96,3 +96,9 @@
     background-color: rgb(55, 55, 59);
     color: white;
 }
+
+footer {
+    text-align: center;
+    background-color: rgba(224, 243, 250, 0.459);
+    padding: 10px;
+}

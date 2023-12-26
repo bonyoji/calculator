@@ -84,6 +84,8 @@ function calculate() {
         result = operate();
         topDisplay.textContent = firstNumber + ' ' + operatorHold;
         bottomDisplay.textContent = result;
+        secondNumber = '';
+        result = '';
     }
 }
 
