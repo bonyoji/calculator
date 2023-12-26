@@ -33,7 +33,6 @@ document.addEventListener('keydown', (e) => {
     } else if (e.key == 'Backspace' || e.key == 'Delete') {
         deleteLastNum();
     }
-    console.log(e.key);
 })
 
 function clickHandler(e) {
@@ -102,14 +101,14 @@ function assignOperator(input) {
     }
     if(isOperator(topDisplay.textContent.slice(-1)) && secondNumber == ''){
         operatorHold = input;
-        topDisplay.textContent = firstNumber + " " + operatorHold;
+        topDisplay.textContent = firstNumber + " " + convertOperator(operatorHold);
         return null;
     }
     if(operatorHold != '') {
         firstNumber = operate();
     }
     operatorHold = input;
-    topDisplay.textContent = firstNumber + ' ' + operatorHold;
+    topDisplay.textContent = firstNumber + ' ' + convertOperator(operatorHold);
     secondNumber = '';
     bottomDisplay.textContent = '';
     if (firstNumber != '') {
@@ -128,6 +127,21 @@ function isOperator(btnText) {
 function checkDecimal() {
 
 }
+
+function convertOperator(operator) {
+    switch(operator) {
+        case '+' :
+            return '\x2b';
+        case '-' :
+            return `\u2212`;
+        case '*' :
+            return `\xD7`;
+        case '/' :
+            return `\xF7`;
+        default :
+            return null;
+    }
+} 
 
 function add(a, b) {
     return Math.floor((a + b)*10)/10;
