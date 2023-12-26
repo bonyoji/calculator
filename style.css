@@ -80,7 +80,7 @@
     flex: 1;
 }
 
-.num, .operator{
+.num, .operator, .equal-btn{
     flex: 1;
     border-radius: 18px;
     margin: 1px;
