@@ -20,85 +20,91 @@ clearBtn.addEventListener('click', clear);
 deleteBtn.addEventListener('click', deleteLastNum);
 equalSign.addEventListener('click', calculate);
 
+document.addEventListener('keydown', (e) => {
+   if (e.key == '/^[0-9]') {
+    appendToDisplay(e.key);
+   } else if (isOperator(e.key)) {
+    assignOperator(e.key);
+   }
+})
 
 function clickHandler(e) {
     let btnText = e.target.value;
-    if (isOperator(btnText) && operatorHold === '') {
-        operatorHold = btnText;
-        bottomDisplay.innerHTML = '';
-        topDisplay.innerHTML = firstNumber + ' ' + operatorHold;
-    } else if (isOperator(operatorHold)) {
-        if (isOperator(btnText)) {
-            if (firstNumber.charAt(firstNumber.length) == isOperator(btnText)){
-                console.log('here');
-            }
-            result = operate();
-            operatorHold = btnText;
-            firstNumber = result;
-            secondNumber = '';
-            topDisplay.innerHTML = firstNumber + ' ' + operatorHold;
-            bottomDisplay.innerHTML = '';
-        } else {
-            secondNumber += btnText;
-            bottomDisplay.innerHTML = secondNumber;
-        }
-    } else {
-            firstNumber += btnText;
-            bottomDisplay.innerHTML = firstNumber;
-        }  
-    }
     if (isOperator(btnText)) {
-        if (firstNumber == '') {
-            clear();
-        } 
+        assignOperator(btnText);
+    } else {
+        appendToDisplay(btnText);
     }
+    
 }
 
 function clear() {
     firstNumber = '';
     secondNumber = '';
     operatorHold = '';
-    topDisplay.innerHTML = '';
-    bottomDisplay.innerHTML = '0';
-    console.log('hi');
+    topDisplay.textContent = '';
+    bottomDisplay.textContent = '0';
 }
 
 function deleteLastNum() {
     if (isOperator(operatorHold)) {
         secondNumber = secondNumber.substring(0, secondNumber.length - 1);
-        bottomDisplay.innerHTML = secondNumber;
+        bottomDisplay.textContent = secondNumber;
     } else {
         firstNumber = firstNumber.substring(0, firstNumber.length - 1);
-        bottomDisplay.innerHTML = firstNumber;
+        bottomDisplay.textContent = firstNumber;
     }
-    console.log('bye');
+}
+
+function calculate() {
+    if (bottomDisplay.textContent == '' && result != '') {
+        clear();
+        bottomDisplay.textContent = result;
+    } else {
+        result = operate();
+        clear();
+        bottomDisplay.textContent = result;
+    }
+}
+
+function appendToDisplay(input) {
+    if (operatorHold == '') {
+        firstNumber += input;
+        bottomDisplay.textContent = firstNumber;
+    } else {
+        secondNumber += input;
+        bottomDisplay.textContent = secondNumber;
+    }
+}
+
+function assignOperator(input) {
+    if(operatorHold != '') {
+        firstNumber = operate();
+    }
+    operatorHold = input;
+    topDisplay.textContent = firstNumber + ' ' + operatorHold;
+    secondNumber = '';
+    bottomDisplay.textContent = '';
+}
+
+function isEmpty() {
+
 }
 
 function isOperator(btnText) {
     return (btnText == '/' || btnText == 'x' || btnText == '-' || btnText == '+');
 }
 
-function calculate() {
-    if (bottomDisplay.innerHTML == '' && result != '') {
-        clear();
-        bottomDisplay.innerHTML = result;
-    } else {
-        result = operate();
-        clear();
-        bottomDisplay.innerHTML = result;
-    }
-}
-
 function add(a, b) {
-    return a + b;
+    return Math.floor((a + b)*10)/10;
 }
 
 function subtract(a, b) {
-    return a - b;
+    return Math.floor((a - b)*10)/10;
 }
 
 function multiply(a, b) {
-    return a * b;
+    return Math.floor((a * b)*10)/10;
 }
 
 function divide(a, b) {
@@ -106,7 +112,7 @@ function divide(a, b) {
         clear();
         return 'No division by 0!';
     }
-    return a / b;
+    return Math.floor((a / b)*10)/10;
 }
 
 function operate() {
