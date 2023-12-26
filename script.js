@@ -69,14 +69,19 @@ function deleteLastNum() {
 
 function calculate() {
     if (isEmpty()) {
+        bottomDisplay.textContent = '0';
+        return null;
+    }
+    if (firstNumber != '' && secondNumber == '' && result != '') {
+        result = firstNumber;
+        bottomDisplay.textContent = result;
         return null;
     }
     if (bottomDisplay.textContent == '' && result != '') {
-        clear();
         bottomDisplay.textContent = result;
     } else {
         result = operate();
-        clear();
+        topDisplay.textContent = firstNumber + ' ' + operatorHold;
         bottomDisplay.textContent = result;
     }
 }
