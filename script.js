@@ -20,7 +20,7 @@ numPad.forEach(btnNum => {
 clearBtn.addEventListener('click', clear);
 deleteBtn.addEventListener('click', deleteLastNum);
 equalSign.addEventListener('click', calculate);
-decimalBtn.addEventListener('click', () => console.log('hi'))
+decimalBtn.addEventListener('click', checkDecimal);
 
 document.addEventListener('keydown', (e) => {
     const numReg = /^\d+/;
@@ -32,6 +32,8 @@ document.addEventListener('keydown', (e) => {
         calculate();
     } else if (e.key == 'Backspace' || e.key == 'Delete') {
         deleteLastNum();
+    } else if (e.key == '.') {
+        checkDecimal();
     }
 })
 
@@ -125,7 +127,19 @@ function isOperator(btnText) {
 }
 
 function checkDecimal() {
-
+    if (topDisplay.textContent == '') {
+        if(firstNumber.includes('.')) {
+            return null;
+        } else {
+            appendToDisplay('.');
+        }
+    } else {
+        if(secondNumber.includes('.')) {
+            return null;
+        } else {
+            appendToDisplay('.');
+        }
+    }
 }
 
 function convertOperator(operator) {
