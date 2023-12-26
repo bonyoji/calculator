@@ -8,6 +8,7 @@ let result = '';
 const numPad = document.querySelectorAll('.num, .operator');
 const clearBtn = document.querySelector('.clear-display');
 const deleteBtn = document.querySelector('.delete-digit');
+const decimalBtn = document.querySelector('.decimal');
 const equalSign = document.querySelector('.equal-btn');
 const topDisplay = document.querySelector('.top-display');
 const bottomDisplay = document.querySelector('.bottom-display');
@@ -19,13 +20,20 @@ numPad.forEach(btnNum => {
 clearBtn.addEventListener('click', clear);
 deleteBtn.addEventListener('click', deleteLastNum);
 equalSign.addEventListener('click', calculate);
+decimalBtn.addEventListener('click', () => console.log('hi'))
 
 document.addEventListener('keydown', (e) => {
-   if (e.key == '/^[0-9]') {
-    appendToDisplay(e.key);
-   } else if (isOperator(e.key)) {
-    assignOperator(e.key);
-   }
+    const numReg = /^\d+/;
+    if (e.key.match(numReg)) {
+        appendToDisplay(e.key);
+    } else if (isOperator(e.key)) {
+        assignOperator(e.key);
+    } else if (e.key == 'Enter') {
+        calculate();
+    } else if (e.key == 'Backspace' || e.key == 'Delete') {
+        deleteLastNum();
+    }
+    console.log(e.key);
 })
 
 function clickHandler(e) {
@@ -35,7 +43,6 @@ function clickHandler(e) {
     } else {
         appendToDisplay(btnText);
     }
-    
 }
 
 function clear() {
@@ -47,6 +54,10 @@ function clear() {
 }
 
 function deleteLastNum() {
+    if (bottomDisplay.textContent == '' || bottomDisplay.textContent == '0') {
+        bottomDisplay.textContent = '0';
+        return null;
+    }
     if (isOperator(operatorHold)) {
         secondNumber = secondNumber.substring(0, secondNumber.length - 1);
         bottomDisplay.textContent = secondNumber;
@@ -57,6 +68,9 @@ function deleteLastNum() {
 }
 
 function calculate() {
+    if (isEmpty()) {
+        return null;
+    }
     if (bottomDisplay.textContent == '' && result != '') {
         clear();
         bottomDisplay.textContent = result;
@@ -78,6 +92,9 @@ function appendToDisplay(input) {
 }
 
 function assignOperator(input) {
+    if (isEmpty()) {
+        return null;
+    }
     if(operatorHold != '') {
         firstNumber = operate();
     }
@@ -85,14 +102,17 @@ function assignOperator(input) {
     topDisplay.textContent = firstNumber + ' ' + operatorHold;
     secondNumber = '';
     bottomDisplay.textContent = '';
+    if (firstNumber != '') {
+        result = firstNumber;
+    }
 }
 
 function isEmpty() {
-
+    return (firstNumber == '' && secondNumber == '');
 }
 
 function isOperator(btnText) {
-    return (btnText == '/' || btnText == 'x' || btnText == '-' || btnText == '+');
+    return (btnText == '/' || btnText == '*' || btnText == '-' || btnText == '+');
 }
 
 function add(a, b) {
@@ -125,7 +145,7 @@ function operate() {
         case '-' :
             return subtract(a, b);
             break;
-        case 'x' :
+        case '*' :
             return multiply(a, b);
             break;
         case '/' :

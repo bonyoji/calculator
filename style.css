@@ -80,7 +80,7 @@
     flex: 1;
 }
 
-.num, .operator, .equal-btn{
+.num, .operator, .equal-btn, .decimal{
     flex: 1;
     border-radius: 18px;
     margin: 1px;
@@ -92,7 +92,7 @@
     color: white;
 }
 
-.num, .delete-digit, .equal-btn {
+.num, .delete-digit, .equal-btn, .decimal {
     background-color: rgb(55, 55, 59);
     color: white;
 }
